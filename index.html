@@ -1,0 +1,1196 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <link rel="stylesheet" href="css/leaflet.css"><link rel="stylesheet" href="css/L.Control.Locate.min.css">
+        <link rel="stylesheet" href="css/qgis2web.css"><link rel="stylesheet" href="css/fontawesome-all.min.css">
+        <link rel="stylesheet" href="css/MarkerCluster.css">
+        <link rel="stylesheet" href="css/MarkerCluster.Default.css">
+        <link rel="stylesheet" href="css/leaflet-control-geocoder.Geocoder.css">
+        <link rel="stylesheet" href="css/leaflet-measure.css">
+        <style>
+        html, body, #map {
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+        }
+        </style>
+        <title></title>
+    </head>
+    <body>
+        <div id="map">
+        </div>
+        <script src="js/qgis2web_expressions.js"></script>
+        <script src="js/leaflet.js"></script><script src="js/L.Control.Locate.min.js"></script>
+        <script src="js/leaflet.rotatedMarker.js"></script>
+        <script src="js/leaflet.pattern.js"></script>
+        <script src="js/leaflet-hash.js"></script>
+        <script src="js/Autolinker.min.js"></script>
+        <script src="js/rbush.min.js"></script>
+        <script src="js/labelgun.min.js"></script>
+        <script src="js/labels.js"></script>
+        <script src="js/leaflet-control-geocoder.Geocoder.js"></script>
+        <script src="js/leaflet-measure.js"></script>
+        <script src="js/leaflet.markercluster.js"></script>
+        <script src="data/TOPOLOGYROADS_Buffer5_Merge_1.js"></script>
+        <script src="data/village_boundary_2.js"></script>
+        <script src="data/merge_3.js"></script>
+        <script src="data/TOPOLOGYvillage_boundary_4.js"></script>
+        <script src="data/TOPOLOGYROADS_5.js"></script>
+        <script src="data/TOPOLOGYT_1_LineErrors_6.js"></script>
+        <script src="data/TOPOLOGYvillage_boundary_ClipLayer_7.js"></script>
+        <script src="data/TOPOLOGYLANDMARK_8.js"></script>
+        <script src="data/TOPOLOGYT_1_PointErrors_9.js"></script>
+        <script>
+        var highlightLayer;
+        function highlightFeature(e) {
+            highlightLayer = e.target;
+
+            if (e.target.feature.geometry.type === 'LineString') {
+              highlightLayer.setStyle({
+                color: '#ffff00',
+              });
+            } else {
+              highlightLayer.setStyle({
+                fillColor: '#ffff00',
+                fillOpacity: 1
+              });
+            }
+            highlightLayer.openPopup();
+        }
+        var map = L.map('map', {
+            zoomControl:true, maxZoom:28, minZoom:1
+        }).fitBounds([[20.82289916916209,79.2804603973456],[20.853793143932524,79.34203746651262]]);
+        var hash = new L.Hash(map);
+        map.attributionControl.setPrefix('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> &middot; <a href="https://qgis.org">QGIS</a>');
+        var autolinker = new Autolinker({truncate: {length: 30, location: 'smart'}});
+        L.control.locate({locateOptions: {maxZoom: 19}}).addTo(map);
+        var measureControl = new L.Control.Measure({
+            position: 'topleft',
+            primaryLengthUnit: 'meters',
+            secondaryLengthUnit: 'kilometers',
+            primaryAreaUnit: 'sqmeters',
+            secondaryAreaUnit: 'hectares'
+        });
+        measureControl.addTo(map);
+        document.getElementsByClassName('leaflet-control-measure-toggle')[0]
+        .innerHTML = '';
+        document.getElementsByClassName('leaflet-control-measure-toggle')[0]
+        .className += ' fas fa-ruler';
+        var bounds_group = new L.featureGroup([]);
+        function setBounds() {
+        }
+        map.createPane('pane_ESRISatellite_0');
+        map.getPane('pane_ESRISatellite_0').style.zIndex = 400;
+        var layer_ESRISatellite_0 = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+            pane: 'pane_ESRISatellite_0',
+            opacity: 1.0,
+            attribution: '',
+            minZoom: 1,
+            maxZoom: 28,
+            minNativeZoom: 0,
+            maxNativeZoom: 20
+        });
+        layer_ESRISatellite_0;
+        map.addLayer(layer_ESRISatellite_0);
+        function pop_TOPOLOGYROADS_Buffer5_Merge_1(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
+                    if (typeof layer.closePopup == 'function') {
+                        layer.closePopup();
+                    } else {
+                        layer.eachLayer(function(feature){
+                            feature.closePopup()
+                        });
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['OBJECTID'] !== null ? autolinker.link(feature.properties['OBJECTID'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">ROAD_NAME</th>\
+                        <td>' + (feature.properties['ROAD_NAME'] !== null ? autolinker.link(feature.properties['ROAD_NAME'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">ROAD_ID</th>\
+                        <td>' + (feature.properties['ROAD_ID'] !== null ? autolinker.link(feature.properties['ROAD_ID'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['BUFF_DIST'] !== null ? autolinker.link(feature.properties['BUFF_DIST'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['ORIG_FID'] !== null ? autolinker.link(feature.properties['ORIG_FID'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Shape_Length'] !== null ? autolinker.link(feature.properties['Shape_Length'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Shape_Area'] !== null ? autolinker.link(feature.properties['Shape_Area'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_TOPOLOGYROADS_Buffer5_Merge_1_0() {
+            return {
+                pane: 'pane_TOPOLOGYROADS_Buffer5_Merge_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(231,113,72,1.0)',
+                interactive: true,
+            }
+        }
+        map.createPane('pane_TOPOLOGYROADS_Buffer5_Merge_1');
+        map.getPane('pane_TOPOLOGYROADS_Buffer5_Merge_1').style.zIndex = 401;
+        map.getPane('pane_TOPOLOGYROADS_Buffer5_Merge_1').style['mix-blend-mode'] = 'normal';
+        var layer_TOPOLOGYROADS_Buffer5_Merge_1 = new L.geoJson(json_TOPOLOGYROADS_Buffer5_Merge_1, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_TOPOLOGYROADS_Buffer5_Merge_1',
+            layerName: 'layer_TOPOLOGYROADS_Buffer5_Merge_1',
+            pane: 'pane_TOPOLOGYROADS_Buffer5_Merge_1',
+            onEachFeature: pop_TOPOLOGYROADS_Buffer5_Merge_1,
+            style: style_TOPOLOGYROADS_Buffer5_Merge_1_0,
+        });
+        bounds_group.addLayer(layer_TOPOLOGYROADS_Buffer5_Merge_1);
+        map.addLayer(layer_TOPOLOGYROADS_Buffer5_Merge_1);
+        function pop_village_boundary_2(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
+                    if (typeof layer.closePopup == 'function') {
+                        layer.closePopup();
+                    } else {
+                        layer.eachLayer(function(feature){
+                            feature.closePopup()
+                        });
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">Shape_Leng</th>\
+                        <td>' + (feature.properties['Shape_Leng'] !== null ? autolinker.link(feature.properties['Shape_Leng'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Shape_Area</th>\
+                        <td>' + (feature.properties['Shape_Area'] !== null ? autolinker.link(feature.properties['Shape_Area'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">plot_numbe</th>\
+                        <td>' + (feature.properties['plot_numbe'] !== null ? autolinker.link(feature.properties['plot_numbe'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_village_boundary_2_0() {
+            return {
+                pane: 'pane_village_boundary_2',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 4.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+        }
+        map.createPane('pane_village_boundary_2');
+        map.getPane('pane_village_boundary_2').style.zIndex = 402;
+        map.getPane('pane_village_boundary_2').style['mix-blend-mode'] = 'normal';
+        var layer_village_boundary_2 = new L.geoJson(json_village_boundary_2, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_village_boundary_2',
+            layerName: 'layer_village_boundary_2',
+            pane: 'pane_village_boundary_2',
+            onEachFeature: pop_village_boundary_2,
+            style: style_village_boundary_2_0,
+        });
+        bounds_group.addLayer(layer_village_boundary_2);
+        map.addLayer(layer_village_boundary_2);
+        function pop_merge_3(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
+                    if (typeof layer.closePopup == 'function') {
+                        layer.closePopup();
+                    } else {
+                        layer.eachLayer(function(feature){
+                            feature.closePopup()
+                        });
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">Bldg_ID</th>\
+                        <td>' + (feature.properties['Bldg_ID'] !== null ? autolinker.link(feature.properties['Bldg_ID'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">OBJECTID</th>\
+                        <td>' + (feature.properties['OBJECTID'] !== null ? autolinker.link(feature.properties['OBJECTID'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Code</th>\
+                        <td>' + (feature.properties['Code'] !== null ? autolinker.link(feature.properties['Code'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Class</th>\
+                        <td>' + (feature.properties['Class'] !== null ? autolinker.link(feature.properties['Class'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Sub_Class</th>\
+                        <td>' + (feature.properties['Sub_Class'] !== null ? autolinker.link(feature.properties['Sub_Class'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Ward_No</th>\
+                        <td>' + (feature.properties['Ward_No'] !== null ? autolinker.link(feature.properties['Ward_No'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Rd_ID</th>\
+                        <td>' + (feature.properties['Rd_ID'] !== null ? autolinker.link(feature.properties['Rd_ID'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Rd_Name</th>\
+                        <td>' + (feature.properties['Rd_Name'] !== null ? autolinker.link(feature.properties['Rd_Name'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Rd_Width</th>\
+                        <td>' + (feature.properties['Rd_Width'] !== null ? autolinker.link(feature.properties['Rd_Width'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Locality</th>\
+                        <td>' + (feature.properties['Locality'] !== null ? autolinker.link(feature.properties['Locality'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>Colony</strong><br />' + (feature.properties['Colony'] !== null ? autolinker.link(feature.properties['Colony'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">No_floors</th>\
+                        <td>' + (feature.properties['No_floors'] !== null ? autolinker.link(feature.properties['No_floors'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Cons_type</th>\
+                        <td>' + (feature.properties['Cons_type'] !== null ? autolinker.link(feature.properties['Cons_type'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Area</th>\
+                        <td>' + (feature.properties['Area'] !== null ? autolinker.link(feature.properties['Area'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Use</th>\
+                        <td>' + (feature.properties['Use'] !== null ? autolinker.link(feature.properties['Use'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Bldg_ID_1</th>\
+                        <td>' + (feature.properties['Bldg_ID_1'] !== null ? autolinker.link(feature.properties['Bldg_ID_1'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Descr</th>\
+                        <td>' + (feature.properties['Descr'] !== null ? autolinker.link(feature.properties['Descr'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_merge_3_0(feature) {
+            switch(String(feature.properties['Use'])) {
+                case 'Agro based & Food Processing':
+                    return {
+                pane: 'pane_merge_3',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(48,18,59,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Banks':
+                    return {
+                pane: 'pane_merge_3',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(59,48,129,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Clinic/Dispensary':
+                    return {
+                pane: 'pane_merge_3',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(66,76,183,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'College':
+                    return {
+                pane: 'pane_merge_3',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(70,104,223,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Community hall':
+                    return {
+                pane: 'pane_merge_3',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(70,130,248,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Electric Sub-Station':
+                    return {
+                pane: 'pane_merge_3',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(62,156,254,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Farm house':
+                    return {
+                pane: 'pane_merge_3',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(45,181,241,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Function Hall / Marriage Garden':
+                    return {
+                pane: 'pane_merge_3',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(29,204,217,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'General Business':
+                    return {
+                pane: 'pane_merge_3',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(24,224,189,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Hotel / Lodge / Restaurant':
+                    return {
+                pane: 'pane_merge_3',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(39,238,164,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Manufacturing':
+                    return {
+                pane: 'pane_merge_3',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(72,248,130,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Office//State Govt. Property':
+                    return {
+                pane: 'pane_merge_3',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(112,254,96,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Other Industries':
+                    return {
+                pane: 'pane_merge_3',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(150,254,68,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Park':
+                    return {
+                pane: 'pane_merge_3',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(177,249,54,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Petrol Pump / LPG filling station':
+                    return {
+                pane: 'pane_merge_3',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(204,237,52,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Play Ground':
+                    return {
+                pane: 'pane_merge_3',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(226,220,56,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Private Hospital':
+                    return {
+                pane: 'pane_merge_3',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(244,199,58,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Private Office':
+                    return {
+                pane: 'pane_merge_3',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(252,177,54,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Public/Community Toilet':
+                    return {
+                pane: 'pane_merge_3',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(254,149,43,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Residential & Commercial':
+                    return {
+                pane: 'pane_merge_3',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(249,118,29,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Residential Area':
+                    return {
+                pane: 'pane_merge_3',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(239,89,17,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Retail':
+                    return {
+                pane: 'pane_merge_3',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(225,65,9,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'School':
+                    return {
+                pane: 'pane_merge_3',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(205,44,4,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Temple':
+                    return {
+                pane: 'pane_merge_3',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(181,28,1,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Water Pumping Station':
+                    return {
+                pane: 'pane_merge_3',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(153,14,1,1.0)',
+                interactive: true,
+            }
+                    break;
+                default:
+                    return {
+                pane: 'pane_merge_3',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(122,4,3,1.0)',
+                interactive: true,
+            }
+                    break;
+            }
+        }
+        map.createPane('pane_merge_3');
+        map.getPane('pane_merge_3').style.zIndex = 403;
+        map.getPane('pane_merge_3').style['mix-blend-mode'] = 'normal';
+        var layer_merge_3 = new L.geoJson(json_merge_3, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_merge_3',
+            layerName: 'layer_merge_3',
+            pane: 'pane_merge_3',
+            onEachFeature: pop_merge_3,
+            style: style_merge_3_0,
+        });
+        bounds_group.addLayer(layer_merge_3);
+        map.addLayer(layer_merge_3);
+        function pop_TOPOLOGYvillage_boundary_4(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
+                    if (typeof layer.closePopup == 'function') {
+                        layer.closePopup();
+                    } else {
+                        layer.eachLayer(function(feature){
+                            feature.closePopup()
+                        });
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2"><strong>OBJECTID</strong><br />' + (feature.properties['OBJECTID'] !== null ? autolinker.link(feature.properties['OBJECTID'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Shape_Leng</th>\
+                        <td>' + (feature.properties['Shape_Leng'] !== null ? autolinker.link(feature.properties['Shape_Leng'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>plot_numbe</strong><br />' + (feature.properties['plot_numbe'] !== null ? autolinker.link(feature.properties['plot_numbe'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>Shape_Length</strong><br />' + (feature.properties['Shape_Length'] !== null ? autolinker.link(feature.properties['Shape_Length'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Shape_Area</th>\
+                        <td>' + (feature.properties['Shape_Area'] !== null ? autolinker.link(feature.properties['Shape_Area'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_TOPOLOGYvillage_boundary_4_0() {
+            return {
+                pane: 'pane_TOPOLOGYvillage_boundary_4',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(225,89,137,1.0)',
+                interactive: true,
+            }
+        }
+        map.createPane('pane_TOPOLOGYvillage_boundary_4');
+        map.getPane('pane_TOPOLOGYvillage_boundary_4').style.zIndex = 404;
+        map.getPane('pane_TOPOLOGYvillage_boundary_4').style['mix-blend-mode'] = 'normal';
+        var layer_TOPOLOGYvillage_boundary_4 = new L.geoJson(json_TOPOLOGYvillage_boundary_4, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_TOPOLOGYvillage_boundary_4',
+            layerName: 'layer_TOPOLOGYvillage_boundary_4',
+            pane: 'pane_TOPOLOGYvillage_boundary_4',
+            onEachFeature: pop_TOPOLOGYvillage_boundary_4,
+            style: style_TOPOLOGYvillage_boundary_4_0,
+        });
+        bounds_group.addLayer(layer_TOPOLOGYvillage_boundary_4);
+        map.addLayer(layer_TOPOLOGYvillage_boundary_4);
+        function pop_TOPOLOGYROADS_5(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
+                    if (typeof layer.closePopup == 'function') {
+                        layer.closePopup();
+                    } else {
+                        layer.eachLayer(function(feature){
+                            feature.closePopup()
+                        });
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">OBJECTID</th>\
+                        <td>' + (feature.properties['OBJECTID'] !== null ? autolinker.link(feature.properties['OBJECTID'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Shape_Length</th>\
+                        <td>' + (feature.properties['Shape_Length'] !== null ? autolinker.link(feature.properties['Shape_Length'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">ROAD_NAME</th>\
+                        <td>' + (feature.properties['ROAD_NAME'] !== null ? autolinker.link(feature.properties['ROAD_NAME'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">ROAD_ID</th>\
+                        <td>' + (feature.properties['ROAD_ID'] !== null ? autolinker.link(feature.properties['ROAD_ID'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_TOPOLOGYROADS_5_0() {
+            return {
+                pane: 'pane_TOPOLOGYROADS_5',
+                opacity: 1,
+                color: 'rgba(225,89,137,1.0)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 1.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+        }
+        map.createPane('pane_TOPOLOGYROADS_5');
+        map.getPane('pane_TOPOLOGYROADS_5').style.zIndex = 405;
+        map.getPane('pane_TOPOLOGYROADS_5').style['mix-blend-mode'] = 'normal';
+        var layer_TOPOLOGYROADS_5 = new L.geoJson(json_TOPOLOGYROADS_5, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_TOPOLOGYROADS_5',
+            layerName: 'layer_TOPOLOGYROADS_5',
+            pane: 'pane_TOPOLOGYROADS_5',
+            onEachFeature: pop_TOPOLOGYROADS_5,
+            style: style_TOPOLOGYROADS_5_0,
+        });
+        bounds_group.addLayer(layer_TOPOLOGYROADS_5);
+        map.addLayer(layer_TOPOLOGYROADS_5);
+        function pop_TOPOLOGYT_1_LineErrors_6(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
+                    if (typeof layer.closePopup == 'function') {
+                        layer.closePopup();
+                    } else {
+                        layer.eachLayer(function(feature){
+                            feature.closePopup()
+                        });
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">ObjectID</th>\
+                        <td>' + (feature.properties['ObjectID'] !== null ? autolinker.link(feature.properties['ObjectID'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">OriginClassID</th>\
+                        <td>' + (feature.properties['OriginClassID'] !== null ? autolinker.link(feature.properties['OriginClassID'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">OriginID</th>\
+                        <td>' + (feature.properties['OriginID'] !== null ? autolinker.link(feature.properties['OriginID'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">DestClassID</th>\
+                        <td>' + (feature.properties['DestClassID'] !== null ? autolinker.link(feature.properties['DestClassID'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">DestID</th>\
+                        <td>' + (feature.properties['DestID'] !== null ? autolinker.link(feature.properties['DestID'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">TopoRuleType</th>\
+                        <td>' + (feature.properties['TopoRuleType'] !== null ? autolinker.link(feature.properties['TopoRuleType'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">TopoRuleID</th>\
+                        <td>' + (feature.properties['TopoRuleID'] !== null ? autolinker.link(feature.properties['TopoRuleID'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">IsException</th>\
+                        <td>' + (feature.properties['IsException'] !== null ? autolinker.link(feature.properties['IsException'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Shape_Length</th>\
+                        <td>' + (feature.properties['Shape_Length'] !== null ? autolinker.link(feature.properties['Shape_Length'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_TOPOLOGYT_1_LineErrors_6_0() {
+            return {
+                pane: 'pane_TOPOLOGYT_1_LineErrors_6',
+                opacity: 1,
+                color: 'rgba(114,155,111,1.0)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 1.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+        }
+        map.createPane('pane_TOPOLOGYT_1_LineErrors_6');
+        map.getPane('pane_TOPOLOGYT_1_LineErrors_6').style.zIndex = 406;
+        map.getPane('pane_TOPOLOGYT_1_LineErrors_6').style['mix-blend-mode'] = 'normal';
+        var layer_TOPOLOGYT_1_LineErrors_6 = new L.geoJson(json_TOPOLOGYT_1_LineErrors_6, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_TOPOLOGYT_1_LineErrors_6',
+            layerName: 'layer_TOPOLOGYT_1_LineErrors_6',
+            pane: 'pane_TOPOLOGYT_1_LineErrors_6',
+            onEachFeature: pop_TOPOLOGYT_1_LineErrors_6,
+            style: style_TOPOLOGYT_1_LineErrors_6_0,
+        });
+        bounds_group.addLayer(layer_TOPOLOGYT_1_LineErrors_6);
+        map.addLayer(layer_TOPOLOGYT_1_LineErrors_6);
+        function pop_TOPOLOGYvillage_boundary_ClipLayer_7(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
+                    if (typeof layer.closePopup == 'function') {
+                        layer.closePopup();
+                    } else {
+                        layer.eachLayer(function(feature){
+                            feature.closePopup()
+                        });
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">OBJECTID_1</th>\
+                        <td>' + (feature.properties['OBJECTID_1'] !== null ? autolinker.link(feature.properties['OBJECTID_1'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">OBJECTID</th>\
+                        <td>' + (feature.properties['OBJECTID'] !== null ? autolinker.link(feature.properties['OBJECTID'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">highway</th>\
+                        <td>' + (feature.properties['highway'] !== null ? autolinker.link(feature.properties['highway'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">name</th>\
+                        <td>' + (feature.properties['name'] !== null ? autolinker.link(feature.properties['name'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">ref</th>\
+                        <td>' + (feature.properties['ref'] !== null ? autolinker.link(feature.properties['ref'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>id</strong><br />' + (feature.properties['id'] !== null ? autolinker.link(feature.properties['id'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">SHAPE_Length</th>\
+                        <td>' + (feature.properties['SHAPE_Length'] !== null ? autolinker.link(feature.properties['SHAPE_Length'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_TOPOLOGYvillage_boundary_ClipLayer_7_0() {
+            return {
+                pane: 'pane_TOPOLOGYvillage_boundary_ClipLayer_7',
+                opacity: 1,
+                color: 'rgba(152,125,183,1.0)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 1.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+        }
+        map.createPane('pane_TOPOLOGYvillage_boundary_ClipLayer_7');
+        map.getPane('pane_TOPOLOGYvillage_boundary_ClipLayer_7').style.zIndex = 407;
+        map.getPane('pane_TOPOLOGYvillage_boundary_ClipLayer_7').style['mix-blend-mode'] = 'normal';
+        var layer_TOPOLOGYvillage_boundary_ClipLayer_7 = new L.geoJson(json_TOPOLOGYvillage_boundary_ClipLayer_7, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_TOPOLOGYvillage_boundary_ClipLayer_7',
+            layerName: 'layer_TOPOLOGYvillage_boundary_ClipLayer_7',
+            pane: 'pane_TOPOLOGYvillage_boundary_ClipLayer_7',
+            onEachFeature: pop_TOPOLOGYvillage_boundary_ClipLayer_7,
+            style: style_TOPOLOGYvillage_boundary_ClipLayer_7_0,
+        });
+        bounds_group.addLayer(layer_TOPOLOGYvillage_boundary_ClipLayer_7);
+        map.addLayer(layer_TOPOLOGYvillage_boundary_ClipLayer_7);
+        function pop_TOPOLOGYLANDMARK_8(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
+                    if (typeof layer.closePopup == 'function') {
+                        layer.closePopup();
+                    } else {
+                        layer.eachLayer(function(feature){
+                            feature.closePopup()
+                        });
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">OBJECTID</th>\
+                        <td>' + (feature.properties['OBJECTID'] !== null ? autolinker.link(feature.properties['OBJECTID'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">LANDMARK_NAME</th>\
+                        <td>' + (feature.properties['LANDMARK_NAME'] !== null ? autolinker.link(feature.properties['LANDMARK_NAME'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_TOPOLOGYLANDMARK_8_0() {
+            return {
+                pane: 'pane_TOPOLOGYLANDMARK_8',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(190,178,151,1.0)',
+                interactive: true,
+            }
+        }
+        map.createPane('pane_TOPOLOGYLANDMARK_8');
+        map.getPane('pane_TOPOLOGYLANDMARK_8').style.zIndex = 408;
+        map.getPane('pane_TOPOLOGYLANDMARK_8').style['mix-blend-mode'] = 'normal';
+        var layer_TOPOLOGYLANDMARK_8 = new L.geoJson(json_TOPOLOGYLANDMARK_8, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_TOPOLOGYLANDMARK_8',
+            layerName: 'layer_TOPOLOGYLANDMARK_8',
+            pane: 'pane_TOPOLOGYLANDMARK_8',
+            onEachFeature: pop_TOPOLOGYLANDMARK_8,
+            pointToLayer: function (feature, latlng) {
+                var context = {
+                    feature: feature,
+                    variables: {}
+                };
+                return L.circleMarker(latlng, style_TOPOLOGYLANDMARK_8_0(feature));
+            },
+        });
+        var cluster_TOPOLOGYLANDMARK_8 = new L.MarkerClusterGroup({showCoverageOnHover: false,
+            spiderfyDistanceMultiplier: 2});
+        cluster_TOPOLOGYLANDMARK_8.addLayer(layer_TOPOLOGYLANDMARK_8);
+
+        bounds_group.addLayer(layer_TOPOLOGYLANDMARK_8);
+        cluster_TOPOLOGYLANDMARK_8.addTo(map);
+        function pop_TOPOLOGYT_1_PointErrors_9(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
+                    if (typeof layer.closePopup == 'function') {
+                        layer.closePopup();
+                    } else {
+                        layer.eachLayer(function(feature){
+                            feature.closePopup()
+                        });
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">ObjectID</th>\
+                        <td>' + (feature.properties['ObjectID'] !== null ? autolinker.link(feature.properties['ObjectID'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">OriginClassID</th>\
+                        <td>' + (feature.properties['OriginClassID'] !== null ? autolinker.link(feature.properties['OriginClassID'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>OriginID</strong><br />' + (feature.properties['OriginID'] !== null ? autolinker.link(feature.properties['OriginID'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">DestClassID</th>\
+                        <td>' + (feature.properties['DestClassID'] !== null ? autolinker.link(feature.properties['DestClassID'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">DestID</th>\
+                        <td>' + (feature.properties['DestID'] !== null ? autolinker.link(feature.properties['DestID'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">TopoRuleType</th>\
+                        <td>' + (feature.properties['TopoRuleType'] !== null ? autolinker.link(feature.properties['TopoRuleType'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">TopoRuleID</th>\
+                        <td>' + (feature.properties['TopoRuleID'] !== null ? autolinker.link(feature.properties['TopoRuleID'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">IsException</th>\
+                        <td>' + (feature.properties['IsException'] !== null ? autolinker.link(feature.properties['IsException'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_TOPOLOGYT_1_PointErrors_9_0() {
+            return {
+                pane: 'pane_TOPOLOGYT_1_PointErrors_9',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(133,182,111,1.0)',
+                interactive: true,
+            }
+        }
+        map.createPane('pane_TOPOLOGYT_1_PointErrors_9');
+        map.getPane('pane_TOPOLOGYT_1_PointErrors_9').style.zIndex = 409;
+        map.getPane('pane_TOPOLOGYT_1_PointErrors_9').style['mix-blend-mode'] = 'normal';
+        var layer_TOPOLOGYT_1_PointErrors_9 = new L.geoJson(json_TOPOLOGYT_1_PointErrors_9, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_TOPOLOGYT_1_PointErrors_9',
+            layerName: 'layer_TOPOLOGYT_1_PointErrors_9',
+            pane: 'pane_TOPOLOGYT_1_PointErrors_9',
+            onEachFeature: pop_TOPOLOGYT_1_PointErrors_9,
+            pointToLayer: function (feature, latlng) {
+                var context = {
+                    feature: feature,
+                    variables: {}
+                };
+                return L.circleMarker(latlng, style_TOPOLOGYT_1_PointErrors_9_0(feature));
+            },
+        });
+        var cluster_TOPOLOGYT_1_PointErrors_9 = new L.MarkerClusterGroup({showCoverageOnHover: false,
+            spiderfyDistanceMultiplier: 2});
+        cluster_TOPOLOGYT_1_PointErrors_9.addLayer(layer_TOPOLOGYT_1_PointErrors_9);
+
+        bounds_group.addLayer(layer_TOPOLOGYT_1_PointErrors_9);
+        cluster_TOPOLOGYT_1_PointErrors_9.addTo(map);
+        var osmGeocoder = new L.Control.Geocoder({
+            collapsed: true,
+            position: 'topleft',
+            text: 'Search',
+            title: 'Testing'
+        }).addTo(map);
+        document.getElementsByClassName('leaflet-control-geocoder-icon')[0]
+        .className += ' fa fa-search';
+        document.getElementsByClassName('leaflet-control-geocoder-icon')[0]
+        .title += 'Search for a place';
+        var baseMaps = {};
+        L.control.layers(baseMaps,{'<img src="legend/TOPOLOGYT_1_PointErrors_9.png" /> TOPOLOGY — T_1_PointErrors': cluster_TOPOLOGYT_1_PointErrors_9,'<img src="legend/TOPOLOGYLANDMARK_8.png" /> TOPOLOGY — LANDMARK': cluster_TOPOLOGYLANDMARK_8,'<img src="legend/TOPOLOGYvillage_boundary_ClipLayer_7.png" /> TOPOLOGY — village_boundary_ClipLayer': layer_TOPOLOGYvillage_boundary_ClipLayer_7,'<img src="legend/TOPOLOGYT_1_LineErrors_6.png" /> TOPOLOGY — T_1_LineErrors': layer_TOPOLOGYT_1_LineErrors_6,'<img src="legend/TOPOLOGYROADS_5.png" /> TOPOLOGY — ROADS': layer_TOPOLOGYROADS_5,'<img src="legend/TOPOLOGYvillage_boundary_4.png" /> TOPOLOGY — village_boundary': layer_TOPOLOGYvillage_boundary_4,'merge<br /><table><tr><td style="text-align: center;"><img src="legend/merge_3_AgrobasedFoodProcessing0.png" /></td><td>Agro based & Food Processing</td></tr><tr><td style="text-align: center;"><img src="legend/merge_3_Banks1.png" /></td><td>Banks</td></tr><tr><td style="text-align: center;"><img src="legend/merge_3_ClinicDispensary2.png" /></td><td>Clinic/Dispensary</td></tr><tr><td style="text-align: center;"><img src="legend/merge_3_College3.png" /></td><td>College</td></tr><tr><td style="text-align: center;"><img src="legend/merge_3_Communityhall4.png" /></td><td>Community hall</td></tr><tr><td style="text-align: center;"><img src="legend/merge_3_ElectricSubStation5.png" /></td><td>Electric Sub-Station</td></tr><tr><td style="text-align: center;"><img src="legend/merge_3_Farmhouse6.png" /></td><td>Farm house</td></tr><tr><td style="text-align: center;"><img src="legend/merge_3_FunctionHallMarriageGarden7.png" /></td><td>Function Hall / Marriage Garden</td></tr><tr><td style="text-align: center;"><img src="legend/merge_3_GeneralBusiness8.png" /></td><td>General Business</td></tr><tr><td style="text-align: center;"><img src="legend/merge_3_HotelLodgeRestaurant9.png" /></td><td>Hotel / Lodge / Restaurant</td></tr><tr><td style="text-align: center;"><img src="legend/merge_3_Manufacturing10.png" /></td><td>Manufacturing</td></tr><tr><td style="text-align: center;"><img src="legend/merge_3_OfficeStateGovtProperty11.png" /></td><td>Office//State Govt. Property</td></tr><tr><td style="text-align: center;"><img src="legend/merge_3_OtherIndustries12.png" /></td><td>Other Industries</td></tr><tr><td style="text-align: center;"><img src="legend/merge_3_Park13.png" /></td><td>Park</td></tr><tr><td style="text-align: center;"><img src="legend/merge_3_PetrolPumpLPGfillingstation14.png" /></td><td>Petrol Pump / LPG filling station</td></tr><tr><td style="text-align: center;"><img src="legend/merge_3_PlayGround15.png" /></td><td>Play Ground</td></tr><tr><td style="text-align: center;"><img src="legend/merge_3_PrivateHospital16.png" /></td><td>Private Hospital</td></tr><tr><td style="text-align: center;"><img src="legend/merge_3_PrivateOffice17.png" /></td><td>Private Office</td></tr><tr><td style="text-align: center;"><img src="legend/merge_3_PublicCommunityToilet18.png" /></td><td>Public/Community Toilet</td></tr><tr><td style="text-align: center;"><img src="legend/merge_3_ResidentialCommercial19.png" /></td><td>Residential & Commercial</td></tr><tr><td style="text-align: center;"><img src="legend/merge_3_ResidentialArea20.png" /></td><td>Residential Area</td></tr><tr><td style="text-align: center;"><img src="legend/merge_3_Retail21.png" /></td><td>Retail</td></tr><tr><td style="text-align: center;"><img src="legend/merge_3_School22.png" /></td><td>School</td></tr><tr><td style="text-align: center;"><img src="legend/merge_3_Temple23.png" /></td><td>Temple</td></tr><tr><td style="text-align: center;"><img src="legend/merge_3_WaterPumpingStation24.png" /></td><td>Water Pumping Station</td></tr><tr><td style="text-align: center;"><img src="legend/merge_3_25.png" /></td><td></td></tr></table>': layer_merge_3,'<img src="legend/village_boundary_2.png" /> village_boundary': layer_village_boundary_2,'<img src="legend/TOPOLOGYROADS_Buffer5_Merge_1.png" /> TOPOLOGY — ROADS_Buffer5_Merge': layer_TOPOLOGYROADS_Buffer5_Merge_1,"ESRI Satellite": layer_ESRISatellite_0,}).addTo(map);
+        setBounds();
+        </script>
+    </body>
+</html>
